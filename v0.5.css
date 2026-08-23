@@ -1,0 +1,37 @@
+.field.reliever-mode {
+  border-color: rgba(123, 223, 242, .42);
+  box-shadow: 0 18px 66px rgba(57, 160, 200, .10), 0 18px 60px rgba(0, 0, 0, .35);
+}
+
+.reliever-mode .sky {
+  filter: saturate(1.08) hue-rotate(8deg);
+}
+
+.pitcher.reliever {
+  filter: drop-shadow(0 0 7px rgba(123, 223, 242, .65));
+}
+
+.pitcher.reliever .head {
+  border-color: #d5f7ff;
+}
+
+.pitcher.reliever .body,
+.pitcher.reliever .leg,
+.pitcher.reliever .arm,
+.pitcher.reliever::before {
+  background: #d5f7ff;
+}
+
+.result.groundout {
+  color: #aeb8c4;
+}
+
+.result.doubleplay {
+  color: #ff8a78;
+  text-shadow: 0 0 20px rgba(255, 84, 112, .22), 0 8px 28px rgba(0, 0, 0, .45);
+}
+
+.field.closer-mode .timing::after {
+  background: #ff5470;
+  box-shadow: 0 0 18px rgba(255, 84, 112, .75);
+}
