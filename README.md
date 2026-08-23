@@ -1,46 +1,72 @@
 # Nostalgic Baseball ⚾
 
-A small nostalgic browser baseball game inspired by classic web mini-games.
+昔のブラウザミニゲームのような、シンプルで気軽に遊べるタイミング野球ゲームです。
 
-Watch the pitch, swing at the right moment, and chase the highest score in a 10-pitch score attack.
+投手が投げたボールをよく見て、打者の前に来た瞬間にスイング。
+10球の合計スコアで自己ベストを目指します。
 
-## How to play
+## 遊び方
 
-- Start the game and watch the pitcher.
-- Swing when the ball reaches the batter.
-- Mobile: tap the field or the **SWING!** button.
-- PC: click/tap the field, use the **SWING!** button, or press **Space**.
-- Timing determines **HOME RUN / HIT / FOUL / STRIKE**.
-- Your best score is saved locally in your browser.
+1. 「ゲーム開始」を押します。
+2. 投手の動きとボールをよく見ます。
+3. ボールが打者の前に来た瞬間にスイングします。
+4. タイミングによって **ホームラン / ヒット / ファウル / ストライク** に判定されます。
+5. 10球の合計スコアを競います。
 
-## Current version: v0.1
+### 操作方法
 
-- 10-pitch score attack
-- Timing-based batting judgement
-- Random pitch speed
-- Home run / hit / foul / strike feedback
-- Lightweight synthesized sound effects
-- Local best-score storage
-- Responsive mobile and desktop layout
-- No external libraries or server required
+- スマートフォン: ゲーム画面をタップ、または「スイング！」ボタン
+- PC: ゲーム画面をクリック、「スイング！」ボタン、または Space キー
 
-## Tech
+## 現在のバージョン: v0.2 開発中
+
+- 10球スコアアタック
+- タイミングによる打撃判定
+- 投球ごとの初速変化
+- **投球中の加速・減速・緩急変化**
+- 加速球 / 減速球 / 伸びる球 / 緩急球などの速度パターン
+- ホームラン / ヒット / ファウル / ストライク演出
+- 軽量なWeb Audio効果音
+- ブラウザ内へのベストスコア保存
+- スマートフォン / PC対応
+- 棒人間をベースにしたミニマルなビジュアル
+- 外部ライブラリ不要
+- サーバー不要
+
+## 技術構成
 
 - HTML
 - CSS
 - Vanilla JavaScript
-- Designed for GitHub Pages
+- GitHub Pages
 
-## Roadmap
+すべて静的ファイルで動作するため、GitHub Pagesだけで公開できます。
 
-- More pitch-speed variation
-- Breaking balls
-- Better pitcher/batter animations
-- More satisfying hit and home-run effects
-- Sound/BGM improvements
-- Difficulty modes
-- Additional nostalgic visual themes
+## このゲームで目指しているもの
+
+2000年代ごろによく見かけた、説明を読まなくてもすぐ遊べる小さなWebゲームの感覚を、現代のブラウザで気軽に楽しめる形にすることを目指しています。
+
+複雑な操作よりも、
+
+- ボールを見る
+- タイミングを合わせる
+- 打った瞬間が気持ちいい
+- もう一回だけ遊びたくなる
+
+というシンプルな楽しさを大切にしています。
+
+## 今後追加したいもの
+
+- カーブやスライダーなど、軌道そのものが変化する変化球
+- 球速表示
+- 難易度モード
+- コンボ / 連続安打
+- ホームラン演出の強化
+- 投手・打者のモーション改善
+- 効果音 / BGMの強化
+- 複数の球場テーマ
+- スマートフォンでの操作感改善
 
 ---
 
-Built as a small vibe-coding project for the web.
+AIとのバイブコーディングを楽しみながら、少しずつ育てているWebミニゲームです。
