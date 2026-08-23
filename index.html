@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#17202a" />
+  <meta name="theme-color" content="#10161c" />
   <title>Nostalgic Baseball</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -11,16 +11,16 @@
   <main class="app">
     <header class="topbar">
       <div>
-        <p class="eyebrow">A tiny nostalgic web game</p>
+        <p class="eyebrow">懐かしくて、新しい。10球だけの野球ゲーム。</p>
         <h1>Nostalgic Baseball</h1>
       </div>
-      <button id="soundButton" class="icon-button" type="button" aria-label="サウンド切替">♪</button>
+      <button id="soundButton" class="icon-button" type="button" aria-label="サウンドをオフ">♪</button>
     </header>
 
-    <section class="scoreboard" aria-label="score">
-      <div><span>SCORE</span><strong id="score">00000</strong></div>
-      <div><span>BEST</span><strong id="best">00000</strong></div>
-      <div><span>PITCH</span><strong><span id="pitchCount">0</span>/10</strong></div>
+    <section class="scoreboard" aria-label="ゲーム情報">
+      <div><span>スコア</span><strong id="score">00000</strong></div>
+      <div><span>ベスト</span><strong id="best">00000</strong></div>
+      <div><span>投球</span><strong><span id="pitchCount">0</span>/10</strong></div>
     </section>
 
     <section id="field" class="field" aria-label="野球ゲーム画面">
@@ -33,11 +33,11 @@
       <div class="ground"></div>
 
       <div id="batter" class="player batter" aria-hidden="true">
-        <div class="cap"></div><div class="head"></div><div class="body"></div><div class="leg leg-a"></div><div class="leg leg-b"></div><div id="bat" class="bat"></div>
+        <div class="head"></div><div class="body"></div><div class="leg leg-a"></div><div class="leg leg-b"></div><div id="bat" class="bat"></div>
       </div>
 
       <div id="pitcher" class="player pitcher" aria-hidden="true">
-        <div class="cap"></div><div class="head"></div><div class="body"></div><div class="leg leg-a"></div><div class="leg leg-b"></div><div class="arm"></div>
+        <div class="head"></div><div class="body"></div><div class="leg leg-a"></div><div class="leg leg-b"></div><div class="arm"></div>
       </div>
 
       <div id="ball" class="ball" aria-hidden="true"></div>
@@ -46,21 +46,24 @@
 
       <div id="startOverlay" class="overlay">
         <div class="overlay-card">
-          <p class="mini">10 PITCH SCORE ATTACK</p>
-          <h2 id="overlayTitle">Play Ball!</h2>
+          <p class="mini">10球スコアアタック</p>
+          <h2 id="overlayTitle">プレイボール！</h2>
           <p id="overlayText">投球をよく見て、ボールが打者の前に来た瞬間にスイング。</p>
-          <button id="startButton" class="primary-button" type="button">START</button>
-          <p class="controls">TAP / CLICK / SPACE</p>
+          <button id="startButton" class="primary-button" type="button">ゲーム開始</button>
+          <p class="controls">画面タップ / クリック / Spaceキー</p>
         </div>
       </div>
     </section>
 
     <section class="bottom-panel">
-      <button id="swingButton" class="swing-button" type="button" disabled>SWING!</button>
-      <p id="message" class="message">STARTを押してゲーム開始</p>
+      <button id="swingButton" class="swing-button" type="button" disabled>スイング！</button>
+      <div class="status-area">
+        <p id="message" class="message">「ゲーム開始」を押してください</p>
+        <p id="pitchInfo" class="pitch-info">投球中にボールの速さが変化します</p>
+      </div>
     </section>
 
-    <footer>Made for the web · No install required</footer>
+    <footer>インストール不要・ブラウザだけで遊べます</footer>
   </main>
   <script src="game.js"></script>
 </body>
