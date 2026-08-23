@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#17202a" />
+  <title>Nostalgic Baseball</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">A tiny nostalgic web game</p>
+        <h1>Nostalgic Baseball</h1>
+      </div>
+      <button id="soundButton" class="icon-button" type="button" aria-label="サウンド切替">♪</button>
+    </header>
+
+    <section class="scoreboard" aria-label="score">
+      <div><span>SCORE</span><strong id="score">00000</strong></div>
+      <div><span>BEST</span><strong id="best">00000</strong></div>
+      <div><span>PITCH</span><strong><span id="pitchCount">0</span>/10</strong></div>
+    </section>
+
+    <section id="field" class="field" aria-label="野球ゲーム画面">
+      <div class="sky">
+        <div class="cloud cloud-a"></div>
+        <div class="cloud cloud-b"></div>
+      </div>
+      <div class="mountains"></div>
+      <div class="fence"></div>
+      <div class="ground"></div>
+
+      <div id="batter" class="player batter" aria-hidden="true">
+        <div class="cap"></div><div class="head"></div><div class="body"></div><div class="leg leg-a"></div><div class="leg leg-b"></div><div id="bat" class="bat"></div>
+      </div>
+
+      <div id="pitcher" class="player pitcher" aria-hidden="true">
+        <div class="cap"></div><div class="head"></div><div class="body"></div><div class="leg leg-a"></div><div class="leg leg-b"></div><div class="arm"></div>
+      </div>
+
+      <div id="ball" class="ball" aria-hidden="true"></div>
+      <div id="result" class="result" aria-live="polite"></div>
+      <div id="timing" class="timing"></div>
+
+      <div id="startOverlay" class="overlay">
+        <div class="overlay-card">
+          <p class="mini">10 PITCH SCORE ATTACK</p>
+          <h2 id="overlayTitle">Play Ball!</h2>
+          <p id="overlayText">投球をよく見て、ボールが打者の前に来た瞬間にスイング。</p>
+          <button id="startButton" class="primary-button" type="button">START</button>
+          <p class="controls">TAP / CLICK / SPACE</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom-panel">
+      <button id="swingButton" class="swing-button" type="button" disabled>SWING!</button>
+      <p id="message" class="message">STARTを押してゲーム開始</p>
+    </section>
+
+    <footer>Made for the web · No install required</footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
