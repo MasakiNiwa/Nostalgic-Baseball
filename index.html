@@ -6,8 +6,19 @@
   <meta name="theme-color" content="#10161c" />
   <meta name="description" content="9回裏の大逆転劇を遊ぶ、懐かしい雰囲気のタイミング野球ゲーム。" />
   <title>Nostalgic Baseball</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="v0.5.css" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>%E2%9A%BE</text></svg>" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>%E2%9A%BE</text></svg>" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Nostalgic Baseball" />
+  <meta property="og:description" content="9回裏、8〜12点ビハインド。3アウトになるまでに、どこまで追い上げられるか。インストール不要のタイミング野球ゲーム。" />
+  <meta property="og:url" content="https://masakiniwa.github.io/Nostalgic-Baseball/" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta name="twitter:card" content="summary" />
+
+  <!-- 更新のたびにクエリを上げる。GitHub Pages のキャッシュで古いファイルが混ざるのを防ぐ。 -->
+  <link rel="stylesheet" href="style.css?v=0.6" />
 </head>
 <body>
   <main class="app">
@@ -60,7 +71,7 @@
 
       <div id="ball" class="ball" aria-hidden="true"></div>
       <div id="result" class="result" aria-live="polite"></div>
-      <div id="timing" class="timing"></div>
+      <div id="timing" class="timing" aria-hidden="true"></div>
 
       <div id="closerBanner" class="closer-banner" aria-live="polite">
         <span>PITCHER CHANGE</span>
@@ -71,7 +82,7 @@
         <div class="overlay-card">
           <p class="mini">9回裏・大逆転チャレンジ</p>
           <h2 id="overlayTitle">最後の攻撃。</h2>
-          <p id="overlayText">8〜12点ビハインドから始まる最終回。打ってもアウトになる。好調なら投手交代。逆転が見えた先には、ラスボス守護神が待っている。</p>
+          <p id="overlayText">8〜12点ビハインドから始まる最終回。バットに当たっても野手の正面を突けばアウト。好調なら投手交代。逆転が見えた先には、ラスボス守護神が待っている。</p>
           <button id="startButton" class="primary-button" type="button">ゲーム開始</button>
           <p class="controls">画面タップ / クリック / Spaceキーでスイング</p>
         </div>
@@ -81,15 +92,13 @@
     <section class="bottom-panel">
       <button id="swingButton" class="swing-button" type="button" disabled>スイング！</button>
       <div class="status-area">
-        <p id="message" class="message">「ゲーム開始」を押してください</p>
+        <p id="message" class="message" aria-live="polite">「ゲーム開始」を押してください</p>
         <p id="pitchInfo" class="pitch-info">球種は投球結果のあとに表示されます</p>
       </div>
     </section>
 
     <footer>インストール不要・ブラウザだけで遊べます</footer>
   </main>
-  <script src="game.js"></script>
-  <script src="comeback-mode.js"></script>
-  <script src="v0.5-mode.js"></script>
+  <script src="game.js?v=0.6"></script>
 </body>
 </html>
