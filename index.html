@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#10161c" />
+  <meta name="description" content="9回裏の逆転劇を遊ぶ、懐かしい雰囲気のタイミング野球ゲーム。" />
   <title>Nostalgic Baseball</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -11,16 +12,23 @@
   <main class="app">
     <header class="topbar">
       <div>
-        <p class="eyebrow">懐かしくて、新しい。10球だけの野球ゲーム。</p>
+        <p class="eyebrow">懐かしくて、新しい。数分で遊べる逆転野球。</p>
         <h1>Nostalgic Baseball</h1>
       </div>
       <button id="soundButton" class="icon-button" type="button" aria-label="サウンドをオフ">♪</button>
     </header>
 
     <section class="scoreboard" aria-label="ゲーム情報">
-      <div><span>スコア</span><strong id="score">00000</strong></div>
+      <div><span>ポイント</span><strong id="score">00000</strong></div>
       <div><span>ベスト</span><strong id="best">00000</strong></div>
-      <div><span>投球</span><strong><span id="pitchCount">0</span>/10</strong></div>
+      <div><span>得点</span><strong id="runScore">0 - 0</strong></div>
+      <div><span>カウント</span><strong id="count">B0 S0 O0</strong></div>
+    </section>
+
+    <section class="situation-bar" aria-live="polite">
+      <span>9回裏</span>
+      <strong id="situation">逆転サヨナラを狙え</strong>
+      <span id="streak">連続安打 0</span>
     </section>
 
     <section id="field" class="field" aria-label="野球ゲーム画面">
@@ -31,6 +39,15 @@
       <div class="mountains"></div>
       <div class="fence"></div>
       <div class="ground"></div>
+
+      <div class="diamond-view" aria-label="塁状況">
+        <span class="diamond-title">RUNNERS</span>
+        <div class="diamond-line"></div>
+        <span id="base2" class="base base-second" aria-label="二塁"></span>
+        <span id="base3" class="base base-third" aria-label="三塁"></span>
+        <span id="base1" class="base base-first" aria-label="一塁"></span>
+        <span class="base base-home" aria-label="本塁"></span>
+      </div>
 
       <div id="batter" class="player batter" aria-hidden="true">
         <div class="head"></div><div class="body"></div><div class="leg leg-a"></div><div class="leg leg-b"></div><div id="bat" class="bat"></div>
@@ -44,13 +61,18 @@
       <div id="result" class="result" aria-live="polite"></div>
       <div id="timing" class="timing"></div>
 
+      <div id="closerBanner" class="closer-banner" aria-live="polite">
+        <span>PITCHER CHANGE</span>
+        <strong>守護神 登板</strong>
+      </div>
+
       <div id="startOverlay" class="overlay">
         <div class="overlay-card">
-          <p class="mini">10球スコアアタック</p>
-          <h2 id="overlayTitle">プレイボール！</h2>
-          <p id="overlayText">投球をよく見て、ボールが打者の前に来た瞬間にスイング。</p>
+          <p class="mini">9回裏・逆転チャレンジ</p>
+          <h2 id="overlayTitle">最後の攻撃。</h2>
+          <p id="overlayText">ビハインドから始まる最終回。3アウトになる前に走者を返し、逆転サヨナラを決めよう。</p>
           <button id="startButton" class="primary-button" type="button">ゲーム開始</button>
-          <p class="controls">画面タップ / クリック / Spaceキー</p>
+          <p class="controls">画面タップ / クリック / Spaceキーでスイング</p>
         </div>
       </div>
     </section>
@@ -59,7 +81,7 @@
       <button id="swingButton" class="swing-button" type="button" disabled>スイング！</button>
       <div class="status-area">
         <p id="message" class="message">「ゲーム開始」を押してください</p>
-        <p id="pitchInfo" class="pitch-info">投球中にボールの速さが変化します</p>
+        <p id="pitchInfo" class="pitch-info">球種は投球結果のあとに表示されます</p>
       </div>
     </section>
 
