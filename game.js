@@ -13,6 +13,7 @@ const overlayTitle = document.getElementById('overlayTitle');
 const overlayText = document.getElementById('overlayText');
 const message = document.getElementById('message');
 const soundButton = document.getElementById('soundButton');
+const pitchInfo = document.getElementById('pitchInfo');
 
 const TOTAL_PITCHES = 10;
 const HIT_X = 19.5;
@@ -23,7 +24,9 @@ let pitchCount = 0;
 let best = Number(localStorage.getItem('nostalgicBaseballBest') || 0);
 let phase = 'idle';
 let ballX = 83;
-let pitchSpeed = 0;
+let baseSpeed = 0;
+let pitchStyle = null;
+let elapsedPitch = 0;
 let lastTime = 0;
 let animationId = null;
 let soundOn = true;
@@ -37,9 +40,7 @@ function formatScore(value) {
 
 function ensureAudio() {
   if (!soundOn) return null;
-  if (!audioContext) {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  }
+  if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
   if (audioContext.state === 'suspended') audioContext.resume();
   return audioContext;
 }
@@ -93,7 +94,8 @@ function startGame() {
   startOverlay.classList.add('hidden');
   swingButton.disabled = false;
   resetBall();
-  message.textContent = 'ピッチャーをよく見て…';
+  message.textContent = '投手をよく見て…';
+  if (pitchInfo) pitchInfo.textContent = '投球中に速度が変化します';
   schedulePitch(650);
 }
 
@@ -106,32 +108,57 @@ function schedulePitch(delay = 700) {
   }, delay);
 }
 
+function choosePitchStyle() {
+  const styles = [
+    { name: '加速球', accel: 8.5, wave: 0, phase: 0 },
+    { name: '減速球', accel: -6.5, wave: 0, phase: 0 },
+    { name: '伸びる球', accel: 4.5, wave: 4.5, phase: 0 },
+    { name: '緩急球', accel: 0, wave: 7.5, phase: Math.PI / 2 },
+    { name: '素直な球', accel: 0.8, wave: 1.8, phase: Math.random() * Math.PI }
+  ];
+  return styles[Math.floor(Math.random() * styles.length)];
+}
+
 function beginPitch() {
   phase = 'pitching';
   pitchCount += 1;
   pitchCountEl.textContent = pitchCount;
   ballX = 83;
-  pitchSpeed = 24 + Math.random() * 9;
+  elapsedPitch = 0;
+  baseSpeed = 25 + Math.random() * 7;
+  pitchStyle = choosePitchStyle();
   lastTime = performance.now();
   pitcher.classList.remove('throwing');
   void pitcher.offsetWidth;
   pitcher.classList.add('throwing');
-  message.textContent = pitchSpeed > 30 ? '速い！' : '来る！';
+  message.textContent = '来る！';
+  if (pitchInfo) pitchInfo.textContent = pitchStyle.name;
   tone(120, .04, 'triangle', .018);
   ball.classList.add('flying');
   animationId = requestAnimationFrame(updatePitch);
+}
+
+function currentPitchSpeed() {
+  const wave = Math.sin(elapsedPitch * 5.2 + pitchStyle.phase) * pitchStyle.wave;
+  const speed = baseSpeed + pitchStyle.accel * elapsedPitch + wave;
+  return Math.max(13, Math.min(43, speed));
 }
 
 function updatePitch(now) {
   if (phase !== 'pitching') return;
   const delta = Math.min((now - lastTime) / 1000, 0.04);
   lastTime = now;
-  ballX -= pitchSpeed * delta;
+  elapsedPitch += delta;
+
+  const speed = currentPitchSpeed();
+  ballX -= speed * delta;
   ball.style.left = `${ballX}%`;
 
-  const progress = (83 - ballX) / 75;
-  ball.style.top = `${54 + Math.sin(progress * Math.PI) * 2.2}%`;
-  ball.style.transform = `scale(${1 + progress * .23})`;
+  const progress = Math.max(0, Math.min(1, (83 - ballX) / 75));
+  const lift = Math.sin(progress * Math.PI) * 2.4;
+  const micro = Math.sin(elapsedPitch * 8) * 0.35;
+  ball.style.top = `${54 + lift + micro}%`;
+  ball.style.transform = `scale(${1 + progress * .24}) rotate(${progress * 420}deg)`;
 
   if (ballX <= MISS_X) {
     resolvePitch('STRIKE', 0, '見逃し！');
@@ -157,11 +184,11 @@ function swing() {
   if (distance <= 2.2) {
     kind = 'HOME RUN';
     points = 1000;
-    detail = '完璧なタイミング！ +1000';
+    detail = '完璧！ +1000';
   } else if (distance <= 5.2) {
     kind = 'HIT';
     points = 500;
-    detail = distance < 3.8 ? 'ナイスバッティング！ +500' : 'ヒット！ +500';
+    detail = 'ナイスバッティング！ +500';
   } else if (distance <= 9) {
     kind = 'FOUL';
     points = 100;
@@ -169,6 +196,15 @@ function swing() {
   }
 
   resolvePitch(kind, points, detail);
+}
+
+function resultLabel(kind) {
+  return {
+    'HOME RUN': 'ホームラン！',
+    'HIT': 'ヒット！',
+    'FOUL': 'ファウル',
+    'STRIKE': 'ストライク'
+  }[kind];
 }
 
 function resolvePitch(kind, points, detail) {
@@ -179,7 +215,7 @@ function resolvePitch(kind, points, detail) {
   message.textContent = detail;
   playHitSound(kind);
 
-  result.textContent = kind;
+  result.textContent = resultLabel(kind);
   result.className = `result ${kind.toLowerCase().replace(' ', '')}`;
   void result.offsetWidth;
   result.classList.add('show');
@@ -212,11 +248,12 @@ function animateBattedBall(homeRun) {
 
   function frame(now) {
     const t = Math.min((now - started) / duration, 1);
-    const x = startX + t * (homeRun ? 64 : 40);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const x = startX + ease * (homeRun ? 64 : 40);
     const y = 54 - Math.sin(t * Math.PI) * (homeRun ? 46 : 22) + t * 5;
     ball.style.left = `${x}%`;
     ball.style.top = `${y}%`;
-    ball.style.transform = `scale(${1 - t * .55})`;
+    ball.style.transform = `scale(${1 - t * .55}) rotate(${t * 900}deg)`;
     if (t < 1) requestAnimationFrame(frame);
     else resetBall();
   }
@@ -235,11 +272,12 @@ function endGame() {
     bestEl.textContent = formatScore(best);
   }
 
-  overlayTitle.textContent = isNewBest ? 'NEW BEST!' : 'Game Set';
-  overlayText.textContent = `10球のスコアは ${score.toLocaleString()} 点。${isNewBest ? '自己ベスト更新！' : 'もう一度挑戦しますか？'}`;
-  startButton.textContent = 'PLAY AGAIN';
+  overlayTitle.textContent = isNewBest ? '自己ベスト更新！' : 'ゲームセット';
+  overlayText.textContent = `10球のスコアは ${score.toLocaleString()} 点。${isNewBest ? '新記録です！' : 'もう一度挑戦しますか？'}`;
+  startButton.textContent = 'もう一度遊ぶ';
   startOverlay.classList.remove('hidden');
   message.textContent = 'ゲーム終了';
+  if (pitchInfo) pitchInfo.textContent = 'おつかれさまでした';
 
   if (isNewBest) {
     tone(330, .12, 'triangle', .035);
